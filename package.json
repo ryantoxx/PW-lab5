@@ -6,9 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "bin": {  
-    "go2web": "./bin/index.js"  
+  "bin": {
+    "go2web": "./bin/index.js"
   },
   "author": "ryantoxx",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "yargs": "^17.7.2"
+  }
 }
