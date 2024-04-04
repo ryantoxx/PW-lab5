@@ -78,6 +78,28 @@ def print_url_response(url):
         if link.startswith("http"):
             print(f"\n{link_element.get_text()}")
             print(f"Link: {link}\n")
+            
+# searches for the term
+def search_term(term):
+    google_search_url = f"https://www.google.com/search?q={term}"
+    response = fetch_url(google_search_url)
+    soup = BeautifulSoup(response, "html.parser")
+    search_results = soup.find_all("a")
+
+    print(f"Top 10 results for '{term}':")
+    count = 0
+
+    for result in search_results:
+        if count >= 10:
+            break
+
+        link = result.get("href")
+        if link.startswith("/url?q="):
+            link = link.split("/url?q=")[1].split("&")[0]
+            if term.lower() in result.text.lower():
+                print(f"{count + 1}. {result.text}")
+                print(f"Link: {link}\n")
+                count += 1
 
 def main():
     if len(sys.argv) < 2 or sys.argv[1] == "-h":
@@ -88,6 +110,12 @@ def main():
         else:
             url = sys.argv[2]
             print_url_response(url)
+    elif sys.argv[1] == "-s":
+        if len(sys.argv) < 3:
+            print("Invalid syntax. Use -h for help.")
+        else:
+            term = sys.argv[2]
+            search_term(term)
     else:
         print("Invalid syntax. Use -h for help.")
 
